@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmers in Romania - By the Numbers, and Against Them</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #192b37;
+            --accent-color: #ff5640;
+            --roi-color: #FFD700;
+            --success-color: #2ecc71;
+            --warn-color: #e74c3c;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+        body {
+            background-color: var(--bg-color);
+            color: white;
+            font-family: 'IBM Plex Sans', sans-serif;
+            overflow: hidden;
+            margin: 0;
+        }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+        @keyframes rotateGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes dataFlow { 0% { left: 0%; opacity:0; } 10% { opacity:1; } 90% { opacity:1; } 100% { left: 100%; opacity:0; } }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-entry { animation: fadeIn 0.8s ease-out forwards; opacity: 0; }
+        .animate-pulse { animation: pulse 2s ease-in-out infinite; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 4px solid var(--accent-color);
+        }
+        .glass-panel-alt {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 4px solid var(--roi-color);
+        }
+        .glass-panel-success {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 4px solid var(--success-color);
+        }
+        .glass-panel-warn {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 4px solid var(--warn-color);
+        }
+        .code-block {
+            font-family: 'Fira Code', monospace;
+            background: #0d161c;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+        .nav-btn {
+            transition: all 0.3s;
+            opacity: 0.5;
+        }
+        .nav-btn:hover { opacity: 1; transform: scale(1.1); color: var(--accent-color); }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85em;
+            display: inline-block;
+        }
+        .badge-accent { background: var(--accent-color); color: white; }
+        .badge-success { background: var(--success-color); color: white; }
+        .badge-roi { background: var(--roi-color); color: var(--bg-color); }
+        .badge-warn { background: var(--warn-color); color: white; }
+
+        .mcp-packet {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-color);
+            animation: dataFlow 3s linear infinite;
+            z-index: 8;
+        }
+
+        .chev { transition: transform 0.2s ease; }
+        .card-press { transition: transform .06s ease; }
+        .card-press:active { transform: scale(0.98); }
+
+        .stamp {
+            position: absolute;
+            transform: rotate(-11deg);
+            border: 3px solid var(--warn-color);
+            color: var(--warn-color);
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            padding: 6px 18px;
+            border-radius: 6px;
+            background: rgba(25,43,55,0.72);
+            white-space: nowrap;
+        }
+
+        /* ---- PRINT / PDF EXPORT -------------------------------------------------
+           Chrome does NOT paint the canvas background in print: without the
+           html/body rule below the whole deck prints WHITE. print-color-adjust
+           must be forced on everything, and .animate-entry starts at opacity 0
+           so it has to be frozen or slides render mid-fade. */
+        .print-only { display: none; }
+        @media print {
+            @page { size: 1920px 1080px; margin: 0; }
+            html, body {
+                background: #192b37 !important;
+                background-color: #192b37 !important;
+                width: 1920px; height: 1080px;
+                overflow: hidden !important;
+            }
+            *, *::before, *::after {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .animate-entry {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            .animate-float, .animate-pulse, .mcp-packet { animation: none !important; }
+            .h-screen { height: 1080px !important; }
+            .w-screen { width: 1920px !important; }
+            .print-hide { display: none !important; }
+            .print-only { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+<!--
+SPEAKER NOTES - SLIDE 07: The money - CAP 2023-2027
+
+
+-->
+<div class="h-screen w-screen p-12 flex flex-col justify-center">
+    <div class="mb-3 text-[#ff5640] font-mono tracking-widest uppercase text-sm animate-entry">The Money</div>
+    <h2 class="text-5xl font-bold mb-2 animate-entry">&euro;15.83 Billion, and a Threshold</h2>
+    <p class="text-xl opacity-70 mb-6 animate-entry delay-1">Romania&rsquo;s CAP Strategic Plan for 2023&ndash;2027, and the rule that decides who is in it.</p>
+
+    <div class="animate-entry delay-2">
+        <div class="text-[11px] font-mono uppercase tracking-widest opacity-40 mb-3">How &euro;15.83bn Splits &middot; European Commission / EU CAP Network, 2023&ndash;2027</div>
+
+        <div class="flex flex-col gap-4">
+            <div>
+                <div class="text-[11px] font-mono uppercase tracking-widest opacity-35 mb-2">By funding source</div>
+                <div class="flex flex-col gap-2">
+                    <div class="flex items-center gap-4">
+                        <div class="text-right" style="width:230px;">
+                            <div class="font-bold text-sm">EU contribution</div>
+                            <div class="text-xs opacity-45 font-mono">of the total programme</div>
+                        </div>
+                        <div class="flex-1 relative h-10">
+                            <div class="absolute left-0 top-0 h-full rounded-r-lg" style="width:94.6%;background:rgba(255,86,64,0.18);border:1px solid rgba(255,86,64,0.45);"></div>
+                        </div>
+                        <div class="text-right font-mono text-sm font-bold" style="width:130px;color:#ff5640;">&euro;14.97bn &middot; 94.6%</div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="text-right" style="width:230px;">
+                            <div class="font-bold text-sm">National co-financing</div>
+                            <div class="text-xs opacity-45 font-mono">the Romanian share</div>
+                        </div>
+                        <div class="flex-1 relative h-10">
+                            <div class="absolute left-0 top-0 h-full rounded-r-lg" style="width:5.4%;background:rgba(143,163,176,0.18);border:1px solid rgba(143,163,176,0.45);"></div>
+                        </div>
+                        <div class="text-right font-mono text-sm font-bold" style="width:130px;color:#8fa3b0;">&euro;0.86bn &middot; 5.4%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="text-[11px] font-mono uppercase tracking-widest opacity-35 mb-2">By spending pillar</div>
+                <div class="flex flex-col gap-2">
+                    <div class="flex items-center gap-4">
+                        <div class="text-right" style="width:230px;">
+                            <div class="font-bold text-sm">Pillar I &middot; direct payments</div>
+                            <div class="text-xs opacity-45 font-mono">paid per hectare, per farm</div>
+                        </div>
+                        <div class="flex-1 relative h-10">
+                            <div class="absolute left-0 top-0 h-full rounded-r-lg" style="width:61.8%;background:rgba(255,86,64,0.18);border:1px solid rgba(255,86,64,0.45);"></div>
+                        </div>
+                        <div class="text-right font-mono text-sm font-bold" style="width:130px;color:#ff5640;">&euro;9.78bn &middot; 61.8%</div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="text-right" style="width:230px;">
+                            <div class="font-bold text-sm">Pillar II &middot; rural development</div>
+                            <div class="text-xs opacity-45 font-mono">infrastructure, agri-environment</div>
+                        </div>
+                        <div class="flex-1 relative h-10">
+                            <div class="absolute left-0 top-0 h-full rounded-r-lg" style="width:37.1%;background:rgba(143,163,176,0.18);border:1px solid rgba(143,163,176,0.45);"></div>
+                        </div>
+                        <div class="text-right font-mono text-sm font-bold" style="width:130px;color:#8fa3b0;">&euro;5.87bn &middot; 37.1%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-5 mt-6 animate-entry delay-3">
+        <div class="glass-panel-alt p-5 rounded-xl flex flex-col" style="height:220px;">
+            <div class="flex items-center gap-3 mb-3">
+                <i class="fas fa-sack-dollar text-2xl" style="color:#FFD700;"></i>
+                <h3 class="text-lg font-bold leading-none">Aimed at Small Farms</h3>
+            </div>
+            <div class="font-mono text-3xl font-bold mb-2" style="color:#FFD700;">&euro;978.7M</div>
+            <p class="text-sm opacity-85 flex-1">Redistributed specifically to farms under 50 ha.</p>
+            <div class="text-[11px] font-mono opacity-45 mt-2">EC, 2023&ndash;2027</div>
+        </div>
+
+        <div class="glass-panel p-5 rounded-xl flex flex-col" style="height:220px;">
+            <div class="flex items-center gap-3 mb-3">
+                <i class="fas fa-door-open text-2xl" style="color:#ff5640;"></i>
+                <h3 class="text-lg font-bold leading-none">The Entry Ticket</h3>
+            </div>
+            <div class="font-mono text-3xl font-bold mb-2" style="color:#ff5640;">&euro;150 / 1&nbsp;ha</div>
+            <p class="text-sm opacity-85 flex-1">The minimum &mdash; in payment value and/or area &mdash; a holding needs to receive direct payments at all.</p>
+            <div class="text-[11px] font-mono opacity-45 mt-2">EC DG AGRI, 2023&ndash;2027</div>
+        </div>
+
+        <div class="glass-panel-warn p-5 rounded-xl flex flex-col" style="height:220px;">
+            <div class="flex items-center gap-3 mb-3">
+                <i class="fas fa-triangle-exclamation text-2xl" style="color:#e74c3c;"></i>
+                <h3 class="text-lg font-bold leading-none">The Number to Doubt</h3>
+            </div>
+            <p class="text-sm opacity-85 flex-1">A per-hectare comparison circulates &mdash; roughly <b class="font-mono">&euro;147/ha</b> for Romania against a <b class="font-mono">&euro;410/ha</b> EU high. The only source found is an academic <b>secondary</b> source, not an EC or Eurostat page.</p>
+            <div class="text-[11px] font-mono mt-2" style="color:#e74c3c;">Th&uuml;nen Institute, secondary source &middot; undated</div>
+        </div>
+    </div>
+
+    <div class="w-full text-center mt-6 py-4 rounded-lg animate-entry delay-4" style="background:rgba(255,86,64,0.08);border:1px solid rgba(255,86,64,0.3);">
+        <span class="text-lg font-bold">Nearly a billion euro is aimed at small farms. The entry ticket is one hectare &mdash; which most of the 2.6 million micro-holdings clear, and which tells you how low the bar has to be.</span>
+    </div>
+</div>
+
+    <div class="absolute bottom-6 right-8 flex items-center gap-6 z-50">
+        <span class="text-sm opacity-40 font-mono">SLIDE 07 / 14</span>
+        <a href="slide6.html" class="nav-btn text-2xl"><i class="fas fa-chevron-left"></i></a>
+        <a href="slide8.html" class="nav-btn text-2xl"><i class="fas fa-chevron-right"></i></a>
+    </div>
+    <script>
+      var PREV = "slide6.html", NEXT = "slide8.html";
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          if (NEXT !== '#') { e.preventDefault(); location.href = NEXT; }
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          if (PREV !== '#') { e.preventDefault(); location.href = PREV; }
+        } else if (e.key === 'Home') {
+          location.href = 'slide1.html';
+        } else if (e.key === 'End') {
+          location.href = 'slide14.html';
+        }
+      });
+    </script>
+    </body></html>

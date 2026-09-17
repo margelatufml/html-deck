@@ -14,7 +14,7 @@ Extracted from three decks that were actually presented, not designed in the abs
 ```
 my-talk/
   deck/
-    index.html            3-line meta-refresh to slide1.html
+    index.html            one-line meta-refresh to slide1.html
     slide1.html … slide14.html    each a complete standalone document
   slides/
     slide01.body.html … slide14.body.html   plain HTML fragments you edit
@@ -36,10 +36,10 @@ template.
 |---|---|---|
 | background | `#192b37` | flat dark navy-slate, never a gradient |
 | accent | `#ff5640` | the strong / new / action side |
-| roi | `#FFD700` | the trap, the caveat, the payoff |
+| roi | `#FFD700` | the payoff, the trigger condition |
 | success | `#2ecc71` | pass, kept, shipped |
-| warn | `#e74c3c` | failure, the honest limitation |
-| neutral | `#8fa3b0` | old, neutral, non-significant — inline only |
+| warn | `#e74c3c` | the failure, the trap, the honest limitation |
+| neutral | `#8fa3b0` | the neutral / unchanged / non-significant side — inline only, never a caveat |
 
 Typography is IBM Plex Sans for prose and Fira Code for anything numeric. Cards are frosted glass panels
 with a 4px semantic left border. Charts are hand-built from divs with hand-computed percentages — no chart
@@ -50,7 +50,7 @@ library, ever.
 The skill encodes the **rhetorical** rules, not just the visual ones:
 
 - Every number carries its provenance in the same breath
-- Every slide ends in one bold, quotable closer sentence
+- Almost every slide ends in one bold, quotable closer sentence — the hero, the close and a video slide excepted
 - Every clean claim is immediately punctured by its own counter-evidence
 - A dedicated **honest slide** near the end that makes the author look worst, with real numbers
 - A trigger table of what was deliberately *not* built — each with a falsifiable condition that would

@@ -16,12 +16,15 @@ of those files, not aspirations. When in doubt, go and read the decks the refere
 
 1. **Every number carries its provenance in the same breath.** The run, the file, the source, the date.
    A number with no origin is the fastest way to lose a technical room.
-2. **Every slide ends in a closer strip** — one full-width bar with one bold, quotable sentence that
-   states the slide's "so what".
+2. **Almost every slide ends in a closer strip** — one full-width bar with one bold, quotable sentence
+   stating the slide's "so what". It is `.glass-panel-alt` by default, `.glass-panel-warn` when the point is
+   a limitation, and occasionally a bespoke tinted box. The hero, the closing slide and the video slide are
+   the sanctioned exceptions; everything else earns one.
 3. **Every interior slide opens with the three-beat header** — mono uppercase eyebrow, `text-5xl` H2,
    `opacity-70` subtitle.
-4. **Colour is semantic, never decorative.** Coral = the strong/new side. Gold = the trap or the payoff.
-   Green = pass. Red = the honest limitation. Slate = neutral/old.
+4. **Colour is semantic, never decorative.** Coral = the strong/new/primary side. Gold = the payoff or the
+   trigger. Green = pass/kept. Red = the failure, the trap, the honest limitation. Slate `#8fa3b0` = the
+   neutral, unchanged or non-significant side — never a caveat; a caveat is red.
 5. **Nothing overflows.** The canvas is exactly 1920×1080 and there is no scrolling. This is verified by
    rendering, not by estimating.
 6. **The deck argues, it does not list.** See `references/narrative-grammar.md`. A deck that is a feature
@@ -65,8 +68,12 @@ sentence. The brief is the spec. Writing HTML without one produces a pretty feat
 ### 4. Write the slide bodies
 
 One plain HTML fragment per slide at `slides/slideNN.body.html` (zero-padded). A fragment is **only** the
-outer wrapper div and its content — no `<head>`, no `<style>`, no `<script>`, no nav cluster. The
+outer wrapper div and its content — no `<head>`, no `<style>`, no nav cluster, no slide counter. The
 generator adds all of that.
+
+One sanctioned exception: a slide with a media element that must take the keyboard (the video slide)
+carries its own small `<script>` in the fragment, so the handler registers before the generator's nav
+script. Across the 38 source slides this happens exactly once. Everything else: no `<script>`.
 
 Read `references/components.md` for the markup and `references/design-system.md` for the tokens.
 

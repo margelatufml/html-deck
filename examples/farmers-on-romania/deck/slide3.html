@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmers in Romania - By the Numbers, and Against Them</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #192b37;
+            --accent-color: #ff5640;
+            --roi-color: #FFD700;
+            --success-color: #2ecc71;
+            --warn-color: #e74c3c;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+        body {
+            background-color: var(--bg-color);
+            color: white;
+            font-family: 'IBM Plex Sans', sans-serif;
+            overflow: hidden;
+            margin: 0;
+        }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+        @keyframes rotateGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes dataFlow { 0% { left: 0%; opacity:0; } 10% { opacity:1; } 90% { opacity:1; } 100% { left: 100%; opacity:0; } }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-entry { animation: fadeIn 0.8s ease-out forwards; opacity: 0; }
+        .animate-pulse { animation: pulse 2s ease-in-out infinite; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 4px solid var(--accent-color);
+        }
+        .glass-panel-alt {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 4px solid var(--roi-color);
+        }
+        .glass-panel-success {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 4px solid var(--success-color);
+        }
+        .glass-panel-warn {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 4px solid var(--warn-color);
+        }
+        .code-block {
+            font-family: 'Fira Code', monospace;
+            background: #0d161c;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+        .nav-btn {
+            transition: all 0.3s;
+            opacity: 0.5;
+        }
+        .nav-btn:hover { opacity: 1; transform: scale(1.1); color: var(--accent-color); }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85em;
+            display: inline-block;
+        }
+        .badge-accent { background: var(--accent-color); color: white; }
+        .badge-success { background: var(--success-color); color: white; }
+        .badge-roi { background: var(--roi-color); color: var(--bg-color); }
+        .badge-warn { background: var(--warn-color); color: white; }
+
+        .mcp-packet {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-color);
+            animation: dataFlow 3s linear infinite;
+            z-index: 8;
+        }
+
+        .chev { transition: transform 0.2s ease; }
+        .card-press { transition: transform .06s ease; }
+        .card-press:active { transform: scale(0.98); }
+
+        .stamp {
+            position: absolute;
+            transform: rotate(-11deg);
+            border: 3px solid var(--warn-color);
+            color: var(--warn-color);
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            padding: 6px 18px;
+            border-radius: 6px;
+            background: rgba(25,43,55,0.72);
+            white-space: nowrap;
+        }
+
+        /* ---- PRINT / PDF EXPORT -------------------------------------------------
+           Chrome does NOT paint the canvas background in print: without the
+           html/body rule below the whole deck prints WHITE. print-color-adjust
+           must be forced on everything, and .animate-entry starts at opacity 0
+           so it has to be frozen or slides render mid-fade. */
+        .print-only { display: none; }
+        @media print {
+            @page { size: 1920px 1080px; margin: 0; }
+            html, body {
+                background: #192b37 !important;
+                background-color: #192b37 !important;
+                width: 1920px; height: 1080px;
+                overflow: hidden !important;
+            }
+            *, *::before, *::after {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .animate-entry {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            .animate-float, .animate-pulse, .mcp-packet { animation: none !important; }
+            .h-screen { height: 1080px !important; }
+            .w-screen { width: 1920px !important; }
+            .print-hide { display: none !important; }
+            .print-only { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+<!--
+SPEAKER NOTES - SLIDE 03: Two agricultures, one country
+
+
+-->
+<div class="h-screen w-screen p-12 flex flex-col justify-center">
+    <div class="mb-3 text-[#ff5640] font-mono tracking-widest uppercase text-sm animate-entry">The Structure</div>
+    <h2 class="text-5xl font-bold mb-2 animate-entry">Two Agricultures, One Country</h2>
+    <p class="text-xl opacity-70 mb-5 animate-entry delay-1">The same 12.6 million hectares (Eurostat, 2023), split two ways that have almost nothing to do with each other.</p>
+
+    <div class="animate-entry delay-2">
+        <div class="text-xs font-mono uppercase tracking-widest opacity-45 mb-2">Share of Farms</div>
+        <div class="flex items-center gap-6">
+            <div class="text-right" style="width:260px;">
+                <div class="text-lg font-bold" style="color:#ff5640;">90.2% under 5&nbsp;ha</div>
+                <div class="text-xs font-mono opacity-45 mt-0.5">Eurostat, 2023</div>
+            </div>
+            <div class="flex-1 relative rounded-lg overflow-hidden" style="height:64px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.03);">
+                <div class="absolute left-0 top-0 h-full" style="width:90.2%;background:rgba(255,86,64,0.35);border-right:1px solid rgba(255,86,64,0.6);"></div>
+                <div class="absolute top-0 h-full" style="left:90.2%;width:8.8%;background:rgba(143,163,176,0.18);border-right:1px solid rgba(143,163,176,0.4);"></div>
+                <div class="absolute top-0 h-full" style="left:99.0%;width:1.0%;background:#FFD700;"></div>
+            </div>
+            <div class="text-left" style="width:260px;">
+                <div class="text-lg font-bold" style="color:#FFD700;">1.0% at 50&nbsp;ha+</div>
+                <div class="text-xs font-mono opacity-45 mt-0.5">Eurostat, 2023</div>
+            </div>
+        </div>
+
+        <div class="text-xs font-mono uppercase tracking-widest opacity-45 mb-2 mt-6">Share of Land</div>
+        <div class="flex items-center gap-6">
+            <div class="text-right" style="width:260px;">
+                <div class="text-lg font-bold" style="color:#ff5640;">~23% of the land</div>
+                <div class="text-xs font-mono opacity-45 mt-0.5">roughly &middot; INS, 2020</div>
+            </div>
+            <div class="flex-1 relative rounded-lg overflow-hidden" style="height:64px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.03);">
+                <div class="absolute left-0 top-0 h-full" style="width:23%;background:rgba(255,86,64,0.35);border-right:1px solid rgba(255,86,64,0.6);"></div>
+                <div class="absolute top-0 h-full" style="left:23%;width:23.9%;background:rgba(143,163,176,0.18);border-right:1px solid rgba(143,163,176,0.4);"></div>
+                <div class="absolute top-0 h-full" style="left:46.9%;width:53.1%;background:#FFD700;"></div>
+            </div>
+            <div class="text-left" style="width:260px;">
+                <div class="text-lg font-bold" style="color:#FFD700;">53.1% at 50&nbsp;ha+</div>
+                <div class="text-xs font-mono opacity-45 mt-0.5">Eurostat, 2023</div>
+            </div>
+        </div>
+
+        <div class="flex justify-between text-xs font-mono opacity-35 mt-2" style="padding-left:284px;padding-right:284px;">
+            <span>0%</span><span>50%</span><span>100%</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-8 mt-6 animate-entry delay-3">
+        <div class="glass-panel p-6 rounded-xl">
+            <div class="flex items-center gap-3 mb-3">
+                <i class="fas fa-seedling text-2xl" style="color:#ff5640;"></i>
+                <h3 class="text-xl font-bold">The Micro-Holding</h3>
+            </div>
+            <p class="text-sm opacity-85 leading-relaxed">2.6 million holdings under 5 hectares (Eurostat, 2023) &mdash; mostly household plots, not commercial farms. Nine in ten Romanian farms belong here, and together they work roughly a quarter of the country&rsquo;s farmland.</p>
+            <div class="mt-3 text-xs font-mono opacity-45">2.6M holdings &middot; Eurostat, 2023</div>
+        </div>
+        <div class="glass-panel-alt p-6 rounded-xl">
+            <div class="flex items-center gap-3 mb-3">
+                <i class="fas fa-tractor text-2xl" style="color:#FFD700;"></i>
+                <h3 class="text-xl font-bold">The Estate</h3>
+            </div>
+            <p class="text-sm opacity-85 leading-relaxed">One in a hundred Romanian farms is 50 hectares or larger (Eurostat, 2023) &mdash; and that one holding in a hundred works 53.1% of all the agricultural land in the country (Eurostat, 2023).</p>
+            <div class="mt-3 text-xs font-mono opacity-45">1.0% of farms &middot; 53.1% of land &middot; Eurostat, 2023</div>
+        </div>
+    </div>
+
+    <div class="glass-panel-alt p-5 rounded-xl mt-5 animate-entry delay-4">
+        <p class="text-xl font-bold">Nine in ten farms work a quarter of the land. One in a hundred works half of it. Any sentence beginning &lsquo;the Romanian farmer&rsquo; is about one of these two and not the other.</p>
+    </div>
+</div>
+
+    <div class="absolute bottom-6 right-8 flex items-center gap-6 z-50">
+        <span class="text-sm opacity-40 font-mono">SLIDE 03 / 14</span>
+        <a href="slide2.html" class="nav-btn text-2xl"><i class="fas fa-chevron-left"></i></a>
+        <a href="slide4.html" class="nav-btn text-2xl"><i class="fas fa-chevron-right"></i></a>
+    </div>
+    <script>
+      var PREV = "slide2.html", NEXT = "slide4.html";
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          if (NEXT !== '#') { e.preventDefault(); location.href = NEXT; }
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          if (PREV !== '#') { e.preventDefault(); location.href = PREV; }
+        } else if (e.key === 'Home') {
+          location.href = 'slide1.html';
+        } else if (e.key === 'End') {
+          location.href = 'slide14.html';
+        }
+      });
+    </script>
+    </body></html>

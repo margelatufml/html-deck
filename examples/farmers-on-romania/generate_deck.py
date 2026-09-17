@@ -21,15 +21,17 @@ import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-DECK_TITLE = "How to Test AI Features"
-SUBTITLE = "Building an Evaluation Harness in pytest"
-PAGE_TITLE = "How to Test AI Features - Test Cafe Session 3"  # browser tab + index.html
-BYLINE = "**Test Cafe - Session 3 of the RLM-Driven Automation series** | Andrei Margelatu | AI Engineer @ Endava"
+DECK_TITLE = "Farmers in Romania"
+SUBTITLE = "One country, two agricultures, three official answers"
+PAGE_TITLE = "Farmers in Romania - By the Numbers, and Against Them"  # browser tab + index.html
+BYLINE = "**Romanian Agriculture - By the Numbers, and Against Them** | built with the html-deck skill"
 
 # Two free-text lines under the byline in SPEAKER_NOTES.md. Keep or empty them.
 NOTES_INTRO = [
-    "Hands-on, laptops open. Navigation: arrow keys, space, or PageUp/PageDown. `deck/index.html` opens slide 1.",
-    "Theory: slides 2-6. Build: 7-9. The judge: 10-12. Critical thinking: 13-14.",
+    "Navigation: arrow keys, space, or PageUp/PageDown. `deck/index.html` opens slide 1.",
+    "Structure: slides 2-6. Money, output, volatility, trade: 7-10. Where it breaks down: 11-12. Scope and close: 13-14.",
+    "",
+    "Every figure carries its source and year. Sources: Eurostat, European Commission DG AGRI, EU CAP Network, INS Romania.",
 ]
 
 TOTAL_SLIDES = 14  # fix this BEFORE writing bodies; it lands in every slide three times
@@ -250,7 +252,7 @@ def load_body(slide_id):
 
 # --- 4. TITLES & SPEAKER NOTES ---
 # Shape:
-#   SLIDE_TITLES = {1: "Title", 2: "Recap - same problem, no pixels to diff", ...}
+#   SLIDE_TITLES = {1: "Short title", 2: "...", ...}
 #   SPEAKER_NOTES = {1: """
 #   Prose, wrapped at ~110 columns. Plain text, no markdown.
 #   Never write a literal "--": it is illegal inside an HTML comment. notes_comment()
@@ -258,7 +260,22 @@ def load_body(slide_id):
 #   """, ...}
 # One entry per slide, 1..TOTAL_SLIDES. Missing keys emit an empty section.
 
-SLIDE_TITLES = {}
+SLIDE_TITLES = {
+    1: "Title",
+    2: "The headline - a third of Europe's farms",
+    3: "Two agricultures, one country",
+    4: "The average farm is a lie",
+    5: "Who is actually farming",
+    6: "The hinge - three official answers",
+    7: "The money - CAP 2023-2027",
+    8: "What the land produces",
+    9: "The volatility - a 63% collapse",
+    10: "Raw out, processed in",
+    11: "Where this framing is wrong",
+    12: "When the sources disagree",
+    13: "What this deck does not cover",
+    14: "Close - ask which number they mean",
+}
 
 SPEAKER_NOTES = {}
 
